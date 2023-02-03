@@ -1,5 +1,5 @@
 {
-  "name": "md-links",
+  "name": "anc-mdlinks",
   "version": "0.1.0",
   "engines": {
     "node": ">=16.x"
@@ -11,5 +11,24 @@
   },
   "dependencies": {
     "jest": "^29.4.1"
-  }
+  },
+  "description": "## Índice",
+  "main": "index.js",
+  "directories": {
+    "test": "test"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/CeToribio/DEV002-md-links.git"
+  },
+  "author": "Ana Cecilia",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/CeToribio/DEV002-md-links/issues"
+  },
+  "homepage": "https://github.com/CeToribio/DEV002-md-links#readme"
 }
