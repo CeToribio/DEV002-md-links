@@ -1,13 +1,33 @@
-const fs = require('fs');
-const path = require('path');
+const { exist,
+  absolute,
+  readAllFiles,
+  isFile,
+  isDirectory,
+  ext} = require('./data.js');
 
-const mdLinks = (ruta,options) => {
+arrayFiles = []
+
+const mdLinks = (route, options) => {
   return new Promise((resolve, reject) => {
     //identificar si la ruta existe envia un error 
-    if (fs.existsSync(ruta)) {
-        // console.log('true')
+    if (exist(route)) {
+      console.log('true')
+      //convertir la ruta a absoluta
+      console.log(absolute(route));
+      //recorrer y obtener arrays de archivos
+      if(isDirectory(route)){
+        readAllFiles(route, arrayFiles)
+      } else {
+        //si es extension .md guarde 
+        if(ext(route) === '.md'){
+          arrayFiles.push(route)
+        }
+        
+      }
+      console.log(arrayFiles)
+      //colocar los pasos a seguir para guiarte
     } else {
-        reject('La ruta no existe');
+      reject('La ruta no existe');
     }
   });
 

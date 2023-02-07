@@ -1,6 +1,6 @@
 const { mdLinks } = require('./index.js');
 
-mdLinks('./README-noexiste.md')
+mdLinks('./carpeta')
 .then(() => {})
 .catch((error) => {
     console.log(error)
