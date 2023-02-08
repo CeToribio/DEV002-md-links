@@ -24,7 +24,8 @@ const mdLinks = (route, options) => {
         if (ext(route) === '.md') {
           console.log(arrayFiles)
           arrayFiles.push(route)
-          
+        } else {
+          console.log("no hay archivos .md")
         }
 
       }

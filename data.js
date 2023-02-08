@@ -3,6 +3,7 @@ const path = require('path');
 
 // leer un archivo
 const regexLink = /^https?:\/\/(?:www\.)?[-a-zA-Z0-9@:%._\+~#=]{1,256}\.[a-zA-Z0-9()]{1,6}\b(?:[-a-zA-Z0-9()@:%_\+.~#?&\/=]*)$/;
+// var regex = new RegExp(regexLink);
 
 //si la ruta existe o no
 const exist = (route) => fs.existsSync(route);
@@ -29,17 +30,17 @@ const isFile = (route) => fs.statSync(route).isFile();
 
 //leer archivo
 
-// fs.readFile('README.md', 'utf-8', (err, contenido) => {
-//   if (err) {
-//     // console.log(err);
-//   } else {
-//     // console.log(contenido);
-//     // const condicion = regexLink
-//     // select(contenido, condicion );
-//     // console.log(select)
+fs.readFile('README.md', 'utf-8', (err, contenido) => {
+  if (err) {
+    // console.log(err);
+  } else {
+    //  console.log(contenido);
+    // const condicion = regexLink
+    // console.log(contenido.match(regex))
+   
 
-//   }
-// })
+  }
+})
 
 
 //------------------------obtener la extension de un archivo
@@ -91,7 +92,7 @@ function readAllFiles(route, newarray = []) {
       //validar una extension .md
       if (path.extname(file) === '.md') {
         newarray.push(`${route}/${file}`)
-       }
+      }
     }
   });
 

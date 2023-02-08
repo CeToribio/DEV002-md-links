@@ -1,6 +1,6 @@
 const { mdLinks } = require('./index.js');
 
-mdLinks('./carpeta')
+mdLinks('./carpeta/prueba.html')
     .then(() => { })
     .catch((error) => {
         console.log(error)
