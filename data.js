@@ -5,7 +5,7 @@ const path = require('path');
 const regexLink = /^https?:\/\/(?:www\.)?[-a-zA-Z0-9@:%._\+~#=]{1,256}\.[a-zA-Z0-9()]{1,6}\b(?:[-a-zA-Z0-9()@:%_\+.~#?&\/=]*)$/;
 
 //si la ruta existe o no
-const exist = (route) =>  fs.existsSync(route);
+const exist = (route) => fs.existsSync(route);
 // regresa un booleano
 // console.log(exist)
 
@@ -24,8 +24,8 @@ const absolute = (route) => path.resolve(route)
 //   }
 // });
 
-const isDirectory = (route) =>fs.statSync(route).isDirectory();
-const isFile = (route) =>fs.statSync(route).isFile();
+const isDirectory = (route) => fs.statSync(route).isDirectory();
+const isFile = (route) => fs.statSync(route).isFile();
 
 //leer archivo
 
@@ -79,38 +79,36 @@ const ext = (route) => path.extname(route);
 
 // -----------------funcion recursiva
 // const arrayOfFiles = []
-function readAllFiles(route, newarray = []){
-	const files = fs.readdirSync(route)
-  console.log(files);
-	files.forEach(file => {
-		const stat = fs.statSync(`${route}/${file}`)
+function readAllFiles(route, newarray = []) {
+  const files = fs.readdirSync(route)
+  //console.log(files);
+  files.forEach(file => {
+    const stat = fs.statSync(`${route}/${file}`)
     // console.log(stat.isDirectory());
-		if(stat.isDirectory()){
-			readAllFiles(`${route}/${file}`, newarray)
-		}else{
+    if (stat.isDirectory()) {
+      readAllFiles(`${route}/${file}`, newarray)
+    } else {
       //validar una extension .md
-      if(path.extname(route) === '.md'){
-        // const md = extension.push(archivo)
+      if (path.extname(file) === '.md') {
         newarray.push(`${route}/${file}`)
-      //   console.log(extension)
-      }
-		}
-	});
+       }
+    }
+  });
 
-  // console.log(arrayOfFiles)
-	return newarray
-  
+  // console.log(newarray)
+  return newarray
+
 }
 
-arrayOfFiles = []
-console.log(readAllFiles('./carpeta', arrayOfFiles ));
+// arrayOfFiles = []
+// console.log(readAllFiles('./carpeta', arrayOfFiles ));
 
 
 module.exports = {
-    exist,
-    absolute,
-    readAllFiles,
-    isDirectory,
-    isFile,
-    ext
-  }
+  exist,
+  absolute,
+  readAllFiles,
+  isDirectory,
+  isFile,
+  ext
+}
