@@ -3,8 +3,15 @@ const path = require('path');
 
 // leer un archivo
 const regexLink = /^https?:\/\/(?:www\.)?[-a-zA-Z0-9@:%._\+~#=]{1,256}\.[a-zA-Z0-9()]{1,6}\b(?:[-a-zA-Z0-9()@:%_\+.~#?&\/=]*)$/;
-// var regex = new RegExp(regexLink);
-
+///(https?:\/\/)(www\.)?[-a-zA-Z0-9@:%._\+~#=]{1,256}\.[a-zA-Z0-9()]{1,6}\b([-a-zA-Z0-9()!@:%_\+.~#?&\/\/=]*)/gi
+// const regex = new RegExp(regexLink);
+const regexMdLinks = /\[([^\[]+)\](\(.*\))/gm
+const regexUlt = /\[([^\[]+)\](^https?:\/\/(?:www\.)?[-a-zA-Z0-9@:%._\+~#=]{1,256}\.[a-zA-Z0-9()]{1,6}\b(?:[-a-zA-Z0-9()@:%_\+.~#?&\/=]*)$)/gm
+const fullLinkOnlyRegex = /^\[([\w\s\d]+)\]\((https?:\/\/[\w\d./?=#]+)\)$/
+const regex = /^\[([\w\s\d]+)\]\(((?:\/|https?:\/\/)[\w\d./?=#]+)\)$/
+const regexLinks = /\[(.+?)\]\((https?:\/\/[^\s]+)(?: "(.+)")?\)|(https?:\/\/[^\s]+)/ig;
+const urlRegex = /\((https?:\/\/[^\s]+)(?: "(.+)")?\)|(https?:\/\/[^\s]+)/ig;
+const textRegex = /\[(\w+.+?)\]/gi;
 //si la ruta existe o no
 const exist = (route) => fs.existsSync(route);
 // regresa un booleano
@@ -30,14 +37,20 @@ const isFile = (route) => fs.statSync(route).isFile();
 
 //leer archivo
 
-fs.readFile('README.md', 'utf-8', (err, contenido) => {
+fs.readFile('./README.md', 'utf-8', (err, contenido) => {
   if (err) {
     // console.log(err);
   } else {
     //  console.log(contenido);
-    // const condicion = regexLink
-    // console.log(contenido.match(regex))
-   
+     //const condicion = regexLink
+     //console.log(contenido.match(regexLink))
+     if(regexLinks.test(contenido) === false ){
+       console.log('no hay links para verificar')
+      } else {
+        const matches = contenido.match(regexLinks)
+        console.log('links', matches)
+      }
+   //.test verifica expresion-regular.test(data) - si existe aplica el match para guardar en un array / no existe links para verificar
 
   }
 })
