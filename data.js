@@ -38,22 +38,56 @@ const isFile = (route) => fs.statSync(route).isFile();
 //leer archivo
 
 fs.readFile('./README.md', 'utf-8', (err, contenido) => {
+  const arrayObjetos = [];
   if (err) {
     // console.log(err);
   } else {
     //  console.log(contenido);
-     //const condicion = regexLink
-     //console.log(contenido.match(regexLink))
-     if(regexLinks.test(contenido) === false ){
-       console.log('no hay links para verificar')
-      } else {
-        const matches = contenido.match(regexLinks)
-        console.log('links', matches)
+    //const condicion = regexLink
+    //console.log(contenido.match(regexLink))
+    if (regexLinks.test(contenido) === false) {
+      //aumentar el router del file-  nose encontro link en
+      console.log('no hay links para verificar')
+    } else {
+      //const matches = contenido.match(regexLinks)
+      const matches = contenido.match(regexLinks)
+      //console.log(matches)
+      //const matchestext = contenido.match(textRegex)
+      //console.log(matchestext)
+      //const matchesLink = contenido.match(urlRegex)
+      //console.log(matchesLink)
+      matches.forEach((item, index, arr) => {
+        const matchestext = item.match(textRegex);
+        //console.log(matchestext)
+        const matchesLink = item.match(urlRegex)
+        //console.log()
+      arrayObjetos.push({href:matchesLink[0], text: matchestext[0]})
+      console.log(arrayObjetos);
+        //console.log('link[' + index + ']=' + item)
+      
+        //   while (matches !== null) {
+        //     objetoLinks.push({
+        //         href: matches[2],
+        //         text: matches[1],
+        //         file: 'pathname',
+        //     });
+        //  matches = regexLinks.exec(contenido)
       }
-   //.test verifica expresion-regular.test(data) - si existe aplica el match para guardar en un array / no existe links para verificar
+        //console.loh(objetoLinks)
+      );
+    }
+    //.test verifica expresion-regular.test(data) - si existe aplica el match para guardar en un array / no existe links para verificar
 
   }
 })
+
+
+
+
+//funcion recorrer en un array
+
+
+
 
 
 //------------------------obtener la extension de un archivo
