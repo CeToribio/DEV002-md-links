@@ -1,17 +1,20 @@
 const fs = require('fs');
 const path = require('path');
+const axios = require('axios')
+
 
 // leer un archivo
-const regexLink = /^https?:\/\/(?:www\.)?[-a-zA-Z0-9@:%._\+~#=]{1,256}\.[a-zA-Z0-9()]{1,6}\b(?:[-a-zA-Z0-9()@:%_\+.~#?&\/=]*)$/;
+// const regexLink = /^https?:\/\/(?:www\.)?[-a-zA-Z0-9@:%._\+~#=]{1,256}\.[a-zA-Z0-9()]{1,6}\b(?:[-a-zA-Z0-9()@:%_\+.~#?&\/=]*)$/;
 ///(https?:\/\/)(www\.)?[-a-zA-Z0-9@:%._\+~#=]{1,256}\.[a-zA-Z0-9()]{1,6}\b([-a-zA-Z0-9()!@:%_\+.~#?&\/\/=]*)/gi
 // const regex = new RegExp(regexLink);
-const regexMdLinks = /\[([^\[]+)\](\(.*\))/gm
-const regexUlt = /\[([^\[]+)\](^https?:\/\/(?:www\.)?[-a-zA-Z0-9@:%._\+~#=]{1,256}\.[a-zA-Z0-9()]{1,6}\b(?:[-a-zA-Z0-9()@:%_\+.~#?&\/=]*)$)/gm
-const fullLinkOnlyRegex = /^\[([\w\s\d]+)\]\((https?:\/\/[\w\d./?=#]+)\)$/
-const regex = /^\[([\w\s\d]+)\]\(((?:\/|https?:\/\/)[\w\d./?=#]+)\)$/
+// const regexMdLinks = /\[([^\[]+)\](\(.*\))/gm
+// const regexUlt = /\[([^\[]+)\](^https?:\/\/(?:www\.)?[-a-zA-Z0-9@:%._\+~#=]{1,256}\.[a-zA-Z0-9()]{1,6}\b(?:[-a-zA-Z0-9()@:%_\+.~#?&\/=]*)$)/gm
+// const fullLinkOnlyRegex = /^\[([\w\s\d]+)\]\((https?:\/\/[\w\d./?=#]+)\)$/
+// const regex = /^\[([\w\s\d]+)\]\(((?:\/|https?:\/\/)[\w\d./?=#]+)\)$/
 const regexLinks = /\[(.+?)\]\((https?:\/\/[^\s]+)(?: "(.+)")?\)|(https?:\/\/[^\s]+)/ig;
 const urlRegex = /\((https?:\/\/[^\s]+)(?: "(.+)")?\)|(https?:\/\/[^\s]+)/ig;
 const textRegex = /\[(\w+.+?)\]/gi;
+
 //si la ruta existe o no
 const exist = (route) => fs.existsSync(route);
 // regresa un booleano
@@ -35,7 +38,12 @@ const absolute = (route) => path.resolve(route)
 const isDirectory = (route) => fs.statSync(route).isDirectory();
 const isFile = (route) => fs.statSync(route).isFile();
 
-//leer archivo
+//------------------------obtener la extension de un archivo
+
+const ext = (route) => path.extname(route);
+// console.log(ext);
+
+//leer archivo y dar un array de objetos de links
 
 fs.readFile('./README.md', 'utf-8', (err, contenido) => {
   const arrayObjetos = [];
@@ -56,22 +64,17 @@ fs.readFile('./README.md', 'utf-8', (err, contenido) => {
       //console.log(matchestext)
       //const matchesLink = contenido.match(urlRegex)
       //console.log(matchesLink)
-      matches.forEach((item, index, arr) => {
+      matches.forEach((item, index, array) => {
         const matchestext = item.match(textRegex);
+        //const unidadText = matchestext[0];
+        //const puroText = unidadText.replace(/\[|\]/g, '').split(',');
         //console.log(matchestext)
         const matchesLink = item.match(urlRegex)
-        //console.log()
-      arrayObjetos.push({href:matchesLink[0], text: matchestext[0]})
-      console.log(arrayObjetos);
-        //console.log('link[' + index + ']=' + item)
-      
-        //   while (matches !== null) {
-        //     objetoLinks.push({
-        //         href: matches[2],
-        //         text: matches[1],
-        //         file: 'pathname',
-        //     });
-        //  matches = regexLinks.exec(contenido)
+        const unidadLink = matchesLink[0];
+        const puroLink = unidadLink.replace(/\(|\)/g, '').split(',');
+        //arrayObjetos.push({ href: puroLink[0], text: puroText[0] })
+        //console.log(arrayObjetos);
+
       }
         //console.loh(objetoLinks)
       );
@@ -81,19 +84,46 @@ fs.readFile('./README.md', 'utf-8', (err, contenido) => {
   }
 })
 
+//prueba validacion de link
+
+const linkprueba = 'https://developer.mozilla.org/es/docs/Web/JavaScript/Reference/Global_Objects/RegExp/exec';
+const linkprueba2 = 'https://developer.mozilla.org/es/docs/Web/JavaScript/Guide/Working_with_Objects';
+
+const pruebaLinks= ['https://developer.mozilla.org/es/docs/Web/JavaScript/Reference/Global_Objects/RegExp/exec', 'https://developer.mozilla.org/es/docs/Web/JavaScript/Guide/Working_with_Objects']
+const promesa1 = axios.get(linkprueba)
+const promesa2 = axios.get(linkprueba2)
+const objetoprueba = {href : 'link1' }
+
+axios.get(linkprueba)
+.then((result) => {
+  //console.log(result.status)
+  //console.log(result.statusText)
+  objetoprueba.status = result.status
+  objetoprueba.ok = result.statusText
+  //console.log(objetoprueba)
+})
+arrayPromise = []
+pruebaLinks.map(link => axios.get(link)
+.then (resul => {
+  
+  arrayPromise.push(resul)
+  //console.log(arrayPromise)
+})
+.catch (err => console.log(err))
+)
+//acepta promesas no resueltas
+const all = Promise.all([promesa1,promesa2])
+  .then((result )=> {
+    return result.map(respuesta => console.log(respuesta.status))
+  })
+  .catch((err) => console.log(err))
 
 
 
-//funcion recorrer en un array
+//all.then(console.log)
 
 
 
-
-
-//------------------------obtener la extension de un archivo
-
-const ext = (route) => path.extname(route);
-// console.log(ext);
 
 // -------------------obtener los archivos de un directorio
 
