@@ -66,13 +66,19 @@ fs.readFile('./README.md', 'utf-8', (err, contenido) => {
       //console.log(matchesLink)
       matches.forEach((item, index, array) => {
         const matchestext = item.match(textRegex);
-        //const unidadText = matchestext[0];
-        //const puroText = unidadText.replace(/\[|\]/g, '').split(',');
+        let unidadText = "";
+        let puroText = ['sin texto']
+        if( matchestext ){
         //console.log(matchestext)
+        unidadText = matchestext[0] ;
+        puroText = unidadText.replace(/\[|\]/g, '').split(',');
+        } 
+
         const matchesLink = item.match(urlRegex)
+        //console.log(matchesLink)
         const unidadLink = matchesLink[0];
         const puroLink = unidadLink.replace(/\(|\)/g, '').split(',');
-        //arrayObjetos.push({ href: puroLink[0], text: puroText[0] })
+        arrayObjetos.push({ href: puroLink[0], text: puroText[0] })
         //console.log(arrayObjetos);
 
       }
@@ -89,38 +95,39 @@ fs.readFile('./README.md', 'utf-8', (err, contenido) => {
 const linkprueba = 'https://developer.mozilla.org/es/docs/Web/JavaScript/Reference/Global_Objects/RegExp/exec';
 const linkprueba2 = 'https://developer.mozilla.org/es/docs/Web/JavaScript/Guide/Working_with_Objects';
 
-const pruebaLinks= ['https://developer.mozilla.org/es/docs/Web/JavaScript/Reference/Global_Objects/RegExp/exec', 'https://developer.mozilla.org/es/docs/Web/JavaScript/Guide/Working_with_Objects']
+const pruebaLinks = ['https://developer.mozilla.org/es/docs/Web/JavaScript/Reference/Global_Objects/RegExp/exec', 'https://developer.mozilla.org/es/docs/Web/JavaScript/Guide/Working_with_Objects',
+'https://app.netlify.com/sites/whimsical-cupcake-2f7f32/deploys/63b70d41d0fcc60d8e524575']
 const promesa1 = axios.get(linkprueba)
 const promesa2 = axios.get(linkprueba2)
-const objetoprueba = {href : 'link1' }
+const objetoprueba = { href: 'link1' }
 
 axios.get(linkprueba)
-.then((result) => {
-  //console.log(result.status)
-  //console.log(result.statusText)
-  objetoprueba.status = result.status
-  objetoprueba.ok = result.statusText
-  //console.log(objetoprueba)
-})
+  .then((result) => {
+    //console.log(result.status)
+    //console.log(result.statusText)
+    objetoprueba.status = result.status
+    objetoprueba.ok = result.statusText
+    //console.log(objetoprueba)
+  })
 arrayPromise = []
-pruebaLinks.map(link => axios.get(link)
-.then (resul => {
-  
-  arrayPromise.push(resul)
-  //console.log(arrayPromise)
-})
-.catch (err => console.log(err))
-)
+pruebaLinks.map(link => arrayPromise.push(axios.get(link)))
+//console.log(arrayPromise)
+ 
+//Mauro return axios.get(url).then(res=> return ….)
 //acepta promesas no resueltas
-const all = Promise.all([promesa1,promesa2])
-  .then((result )=> {
-    return result.map(respuesta => console.log(respuesta.status))
+const all = Promise.all(arrayPromise)
+  .then((result) => {
+    result.map(respuesta => {
+      return {
+        status: console.log(respuesta.status),
+        ok: console.log(respuesta.statusText)
+      };
+    })
   })
   .catch((err) => console.log(err))
 
 
-
-//all.then(console.log)
+//console.log (all.then)
 
 
 
