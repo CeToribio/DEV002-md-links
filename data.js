@@ -68,11 +68,11 @@ fs.readFile('./README.md', 'utf-8', (err, contenido) => {
         const matchestext = item.match(textRegex);
         let unidadText = "";
         let puroText = ['sin texto']
-        if( matchestext ){
-        //console.log(matchestext)
-        unidadText = matchestext[0] ;
-        puroText = unidadText.replace(/\[|\]/g, '').split(',');
-        } 
+        if (matchestext) {
+          //console.log(matchestext)
+          unidadText = matchestext[0];
+          puroText = unidadText.replace(/\[|\]/g, '').split(',');
+        }
 
         const matchesLink = item.match(urlRegex)
         //console.log(matchesLink)
@@ -95,8 +95,8 @@ fs.readFile('./README.md', 'utf-8', (err, contenido) => {
 const linkprueba = 'https://developer.mozilla.org/es/docs/Web/JavaScript/Reference/Global_Objects/RegExp/exec';
 const linkprueba2 = 'https://developer.mozilla.org/es/docs/Web/JavaScript/Guide/Working_with_Objects';
 
-const pruebaLinks = ['https://developer.mozilla.org/es/docs/Web/JavaScript/Reference/Global_Objects/RegExp/exec', 'https://developer.mozilla.org/es/docs/Web/JavaScript/Guide/Working_with_Objects',
-'https://app.netlify.com/sites/whimsical-cupcake-2f7f32/deploys/63b70d41d0fcc60d8e524575']
+const pruebaLinks = ['https://developer.mozilla.org/es/docs/Web/JavaScript/Reference/Global_Objects/RegExp/exec', 'https://developer.mozilla/es/docs/Web/JavaScript/Guide/Working_with_Objects',
+  'https://app.netlify.com/sites/whimsical-cupcake-2f7f32/deploys/63b70d41d0fcc60d8e524575']
 const promesa1 = axios.get(linkprueba)
 const promesa2 = axios.get(linkprueba2)
 const objetoprueba = { href: 'link1' }
@@ -110,9 +110,24 @@ axios.get(linkprueba)
     //console.log(objetoprueba)
   })
 arrayPromise = []
-pruebaLinks.map(link => arrayPromise.push(axios.get(link)))
+pruebaLinks.map (link => arrayPromise.push(axios.get(link)))
+
+//muestra el erro pero muestra los corectos
+// pruebaLinks.map(link => axios.get(link)
+//   .then((result) => {
+  
+//       return {
+//         status: console.log(result.status),
+//         ok: console.log(result.statusText)
+//       }
+//     })
+
+//   .catch((err) => console.log(err))
+// )
+//se puede hacer desde como lo pense iterando en esta funcion y resolviendo aqui
+
 //console.log(arrayPromise)
- 
+
 //Mauro return axios.get(url).then(res=> return ….)
 //acepta promesas no resueltas
 const all = Promise.all(arrayPromise)
