@@ -69,13 +69,12 @@ function arrayLinks(file, arrayObjetos = []) {
             unidadText = matchestext[0];
             puroText = unidadText.replace(/\[|\]/g, '').split(',');
           }
-
           const matchesLink = item.match(urlRegex)
           //console.log(matchesLink)
           const unidadLink = matchesLink[0];
           const puroLink = unidadLink.replace(/\(|\)/g, '').split(',');
 
-          arrayObjetos.push({ href: puroLink[0], text: puroText[0] })
+          arrayObjetos.push({ href: puroLink[0], text: puroText[0], path:`${file}` })
 
         });
         console.log(arrayObjetos);
@@ -90,7 +89,7 @@ function arrayLinks(file, arrayObjetos = []) {
 const linkprueba = 'https://developer.mozilla.org/es/docs/Web/JavaScript/Reference/Global_Objects/RegExp/exec';
 const linkprueba2 = 'https://developer.mozilla.org/es/docs/Web/JavaScript/Guide/Working_with_Objects';
 
-const pruebaLinks = ['https://developer.mozilla.org/es/docs/Web/JavaScript/Reference/Global_Objects/RegExp/exec', 'https://developer.mozilla/es/docs/Web/JavaScript/Guide/Working_with_Objects',
+const pruebaLinks = ['https://developer.mozilla.org/es/docs/Web/JavaScript/Reference/Global_Objects/RegExp/exec', 'https://developer.mozilla.org/es/docs/Web/JavaScript/Guide/Working_with_Objects',
   'https://app.netlify.com/sites/whimsical-cupcake-2f7f32/deploys/63b70d41d0fcc60d8e524575']
 const promesa1 = axios.get(linkprueba)
 const promesa2 = axios.get(linkprueba2)
@@ -104,9 +103,14 @@ axios.get(linkprueba)
     objetoprueba.ok = result.statusText
     //console.log(objetoprueba)
   })
-arrayPromise = []
-//pruebaLinks.map (link => arrayPromise.push(axios.get(link)))
 
+arrayPromise = []
+//const promise = (arrayLinks, arrayPromise = [] ) => { arrayLinks.map (link => arrayPromise.push(axios.get(link.href)))}
+pruebaLinks.map(link => arrayPromise.push(axios.get(link)))
+//tengo q obtener los links recorriendo
+//esta leyendo el array vacio
+//revisar como otras ideas para poder leer el array de los links
+const promise = (arrayLinks) =>  console.log(arrayLinks)
 //muestra el erro pero muestra los corectos
 // pruebaLinks.map(link => axios.get(link)
 //   .then((result) => {
@@ -125,17 +129,18 @@ arrayPromise = []
 
 //Mauro return axios.get(url).then(res=> return ….)
 //acepta promesas no resueltas
-// const all = Promise.all(arrayPromise)
-//   .then((result) => {
-//     result.map(respuesta => {
-//       return {
-//         status: console.log(respuesta.status),
-//         ok: console.log(respuesta.statusText)
-//       };
-//     })
-//   })
-//   .catch((err) => console.log(err))
-
+//const allPromise =(arrayPromise)=>{
+   Promise.all(arrayPromise)
+  .then((result) => {
+    result.map(respuesta => {
+      return {
+        status: console.log(respuesta.status),
+        ok: console.log(respuesta.statusText)
+      };
+    })
+  })
+  .catch((err) => console.log(err))
+//}
 
 //console.log (all.then)
 
@@ -207,5 +212,6 @@ module.exports = {
   isFile,
   ext,
   arrayLinks,
+  promise
 
 }

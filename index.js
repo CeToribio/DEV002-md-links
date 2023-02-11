@@ -4,7 +4,8 @@ const { exist,
   isFile,
   isDirectory,
   ext,
-  arrayLinks } = require('./data.js');
+  arrayLinks,
+  promise } = require('./data.js');
 
 
 
@@ -32,8 +33,15 @@ const mdLinks = (route, options) => {
 
       const arrayObjetos = []
       arrayFiles.map(file => {
+         
+        //console.log(file);
         arrayLinks(file, arrayObjetos)
+
       });
+
+      // const arrayPromise = []
+      // //promise(arrayObjetos,arrayPromise)
+      // promise(arrayObjetos)
 
       //colocar los pasos a seguir para guiarte
     } else {
