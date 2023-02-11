@@ -3,7 +3,8 @@ const { exist,
   readAllFiles,
   isFile,
   isDirectory,
-  ext } = require('./data.js');
+  ext,
+  arrayLinks } = require('./data.js');
 
 
 
@@ -27,8 +28,12 @@ const mdLinks = (route, options) => {
         } else {
           console.log("no hay archivos .md")
         }
-
       }
+
+      const arrayObjetos = []
+      arrayFiles.map(file => {
+        arrayLinks(file, arrayObjetos)
+      });
 
       //colocar los pasos a seguir para guiarte
     } else {

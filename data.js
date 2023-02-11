@@ -3,17 +3,10 @@ const path = require('path');
 const axios = require('axios')
 
 
-// leer un archivo
-// const regexLink = /^https?:\/\/(?:www\.)?[-a-zA-Z0-9@:%._\+~#=]{1,256}\.[a-zA-Z0-9()]{1,6}\b(?:[-a-zA-Z0-9()@:%_\+.~#?&\/=]*)$/;
-///(https?:\/\/)(www\.)?[-a-zA-Z0-9@:%._\+~#=]{1,256}\.[a-zA-Z0-9()]{1,6}\b([-a-zA-Z0-9()!@:%_\+.~#?&\/\/=]*)/gi
-// const regex = new RegExp(regexLink);
 // const regexMdLinks = /\[([^\[]+)\](\(.*\))/gm
-// const regexUlt = /\[([^\[]+)\](^https?:\/\/(?:www\.)?[-a-zA-Z0-9@:%._\+~#=]{1,256}\.[a-zA-Z0-9()]{1,6}\b(?:[-a-zA-Z0-9()@:%_\+.~#?&\/=]*)$)/gm
 // const fullLinkOnlyRegex = /^\[([\w\s\d]+)\]\((https?:\/\/[\w\d./?=#]+)\)$/
 // const regex = /^\[([\w\s\d]+)\]\(((?:\/|https?:\/\/)[\w\d./?=#]+)\)$/
-const regexLinks = /\[(.+?)\]\((https?:\/\/[^\s]+)(?: "(.+)")?\)|(https?:\/\/[^\s]+)/ig;
-const urlRegex = /\((https?:\/\/[^\s]+)(?: "(.+)")?\)|(https?:\/\/[^\s]+)/ig;
-const textRegex = /\[(\w+.+?)\]/gi;
+
 
 //si la ruta existe o no
 const exist = (route) => fs.existsSync(route);
@@ -44,51 +37,53 @@ const ext = (route) => path.extname(route);
 // console.log(ext);
 
 //leer archivo y dar un array de objetos de links
+// function readfile(file){
+//   fs.readFile(`${file}`, 'utf-8', (err,contenido) => {
+//     console.log(contenido)
+//   })
+// }
 
-fs.readFile('./README.md', 'utf-8', (err, contenido) => {
-  const arrayObjetos = [];
-  if (err) {
-    // console.log(err);
-  } else {
-    //  console.log(contenido);
-    //const condicion = regexLink
-    //console.log(contenido.match(regexLink))
-    if (regexLinks.test(contenido) === false) {
-      //aumentar el router del file-  nose encontro link en
-      console.log('no hay links para verificar')
+const regexLinks = /\[(.+?)\]\((https?:\/\/[^\s]+)(?: "(.+)")?\)|(https?:\/\/[^\s]+)/ig;
+const urlRegex = /\((https?:\/\/[^\s]+)(?: "(.+)")?\)|(https?:\/\/[^\s]+)/ig;
+const textRegex = /\[(\w+.+?)\]/gi;
+
+function arrayLinks(file, arrayObjetos = []) {
+  fs.readFile(`${file}`, 'utf-8', (err, contenido) => {
+    //const arrayObjetos = [];
+    if (err) {
+      console.log(err);
     } else {
-      //const matches = contenido.match(regexLinks)
-      const matches = contenido.match(regexLinks)
-      //console.log(matches)
-      //const matchestext = contenido.match(textRegex)
-      //console.log(matchestext)
-      //const matchesLink = contenido.match(urlRegex)
-      //console.log(matchesLink)
-      matches.forEach((item, index, array) => {
-        const matchestext = item.match(textRegex);
-        let unidadText = "";
-        let puroText = ['sin texto']
-        if (matchestext) {
-          //console.log(matchestext)
-          unidadText = matchestext[0];
-          puroText = unidadText.replace(/\[|\]/g, '').split(',');
-        }
+      //  console.log(contenido);
+      if (regexLinks.test(contenido) === false) {
+        //aumentar el router del file-  nose encontro link en
+        console.log('no hay links para verificar')
+      } else {
+        const matches = contenido.match(regexLinks)
+        //console.log(matches)
+        matches.forEach((item) => {
+          const matchestext = item.match(textRegex);
+          let unidadText = "";
+          let puroText = ['sin texto']
+          if (matchestext) {
+            //console.log(matchestext)
+            unidadText = matchestext[0];
+            puroText = unidadText.replace(/\[|\]/g, '').split(',');
+          }
 
-        const matchesLink = item.match(urlRegex)
-        //console.log(matchesLink)
-        const unidadLink = matchesLink[0];
-        const puroLink = unidadLink.replace(/\(|\)/g, '').split(',');
-        arrayObjetos.push({ href: puroLink[0], text: puroText[0] })
-        //console.log(arrayObjetos);
+          const matchesLink = item.match(urlRegex)
+          //console.log(matchesLink)
+          const unidadLink = matchesLink[0];
+          const puroLink = unidadLink.replace(/\(|\)/g, '').split(',');
 
+          arrayObjetos.push({ href: puroLink[0], text: puroText[0] })
+
+        });
+        console.log(arrayObjetos);
+        return arrayObjetos
       }
-        //console.loh(objetoLinks)
-      );
     }
-    //.test verifica expresion-regular.test(data) - si existe aplica el match para guardar en un array / no existe links para verificar
-
-  }
-})
+  });
+}
 
 //prueba validacion de link
 
@@ -110,12 +105,12 @@ axios.get(linkprueba)
     //console.log(objetoprueba)
   })
 arrayPromise = []
-pruebaLinks.map (link => arrayPromise.push(axios.get(link)))
+//pruebaLinks.map (link => arrayPromise.push(axios.get(link)))
 
 //muestra el erro pero muestra los corectos
 // pruebaLinks.map(link => axios.get(link)
 //   .then((result) => {
-  
+
 //       return {
 //         status: console.log(result.status),
 //         ok: console.log(result.statusText)
@@ -130,16 +125,16 @@ pruebaLinks.map (link => arrayPromise.push(axios.get(link)))
 
 //Mauro return axios.get(url).then(res=> return ….)
 //acepta promesas no resueltas
-const all = Promise.all(arrayPromise)
-  .then((result) => {
-    result.map(respuesta => {
-      return {
-        status: console.log(respuesta.status),
-        ok: console.log(respuesta.statusText)
-      };
-    })
-  })
-  .catch((err) => console.log(err))
+// const all = Promise.all(arrayPromise)
+//   .then((result) => {
+//     result.map(respuesta => {
+//       return {
+//         status: console.log(respuesta.status),
+//         ok: console.log(respuesta.statusText)
+//       };
+//     })
+//   })
+//   .catch((err) => console.log(err))
 
 
 //console.log (all.then)
@@ -210,5 +205,7 @@ module.exports = {
   readAllFiles,
   isDirectory,
   isFile,
-  ext
+  ext,
+  arrayLinks,
+
 }
