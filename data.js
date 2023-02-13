@@ -62,16 +62,14 @@ const recorrerArrayFiles = (arrayFiles) => {
            if(index === (arrayFiles.length - 1)){
             //const newArray = arrayLinks(file, contenido)
             //console.log('newArray', newArray)
-            console.log('merge',merge)
+            //console.log('merge',merge)
             resolve (merge)
            }
         }
       })
-    }) 
-    
+    })   
     
   })
-  
 
 }
 
@@ -160,10 +158,14 @@ console.log(arrayPromise2)
 const allPromise = (arrayLinks) => {
   arrayLinks.map((link) => {axios.get(link.href)
   .then((result) => {
-      return {
-        status: console.log(result.status),
-        ok: console.log(result.statusText)
-      }
+    const objectValidate =  {
+      ...link,
+      status: result.status,
+      ok: result.statusText
+    }
+
+      console.log(objectValidate)
+      return objectValidate
     })
 
   .catch((err) => console.log(err))
