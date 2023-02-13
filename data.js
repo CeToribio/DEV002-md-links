@@ -50,19 +50,19 @@ const textRegex = /\[(\w+.+?)\]/gi;
 const recorrerArrayFiles = (arrayFiles) => {
   const newArray = []
   return new Promise((resolve, reject) => {
-    arrayFiles.forEach((file,index) => {
+    arrayFiles.map((file,index) => {
       //console.log(arrayFiles.length)
       // console.log(index)
       fs.readFile(`${file}`, 'utf-8', (err, contenido) => {
         if (err) {
           reject ('error recorreArray');
         } else {
-            newArray.push(arrayLinks(file, contenido))
-            //const newArray = arrayLinks(file, contenido)
-          //console.log('newArray', newArray)
+          newArray.push(arrayLinks(file, contenido));
+          const merge = [].concat(...newArray)
            if(index === (arrayFiles.length - 1)){
-            const merge = [].concat(...newArray)
-            //console.log('merge',merge)
+            //const newArray = arrayLinks(file, contenido)
+            //console.log('newArray', newArray)
+            console.log('merge',merge)
             resolve (merge)
            }
         }
@@ -129,43 +129,79 @@ axios.get(linkprueba)
     //console.log(objetoprueba)
   })
 
-arrayPromise = []
+arrayPromise2 = []
 //const promise = (arrayLinks, arrayPromise = [] ) => { arrayLinks.map (link => arrayPromise.push(axios.get(link.href)))}
-pruebaLinks.map(link => arrayPromise.push(axios.get(link)))
+pruebaLinks.map((link)=> {arrayPromise2.push(axios.get(link))} )
+console.log(arrayPromise2)
+
+
+// const promise = (link) => {
+//   arrayPromise = []
+//   return new Promise((resolve,reject) => { 
+//     arrayPromise.push(axios.get(link))
+//     resolve (arrayPromise)
+    
+//   })
+// } 
+//---------prueba sin promesa
+ const promise = (link) => {
+  const arrayPromise = [] 
+    arrayPromise.push(axios.get(link))
+    return arrayPromise
+    
+  }
+
+//pruebaLinks.map(link => arrayPromise.push(axios.get(link)))
 //tengo q obtener los links recorriendo
 //esta leyendo el array vacio
 //revisar como otras ideas para poder leer el array de los links
-const promise = (arrayLinks) => console.log(arrayLinks)
+//const promise = (arrayLinks) => console.log(arrayLinks)
 //muestra el erro pero muestra los corectos
-// pruebaLinks.map(link => axios.get(link)
-//   .then((result) => {
+const allPromise = (arrayLinks) => {
+  arrayLinks.map((link) => {axios.get(link.href)
+  .then((result) => {
+      return {
+        status: console.log(result.status),
+        ok: console.log(result.statusText)
+      }
+    })
 
-//       return {
-//         status: console.log(result.status),
-//         ok: console.log(result.statusText)
-//       }
-//     })
-
-//   .catch((err) => console.log(err))
-// )
+  .catch((err) => console.log(err))
+  
+}
+)}
 //se puede hacer desde como lo pense iterando en esta funcion y resolviendo aqui
 
 //console.log(arrayPromise)
 
 //Mauro return axios.get(url).then(res=> return ….)
 //acepta promesas no resueltas
-//const allPromise =(arrayPromise)=>{
-Promise.all(arrayPromise)
-  .then((result) => {
-    result.map(respuesta => {
-      return {
-        status: console.log(respuesta.status),
-        ok: console.log(respuesta.statusText)
-      };
-    })
-  })
-  .catch((err) => console.log(err))
-//}
+// const allPromise =(arrayPromise)=>{
+//   return new Promise ((resolve, reject)=> {
+//     Promise.all(arrayPromise)
+//     .then((result) => {
+//       result.map(respuesta => {
+//         resolve( {
+//           status: console.log(respuesta.status),
+//           ok: console.log(respuesta.statusText)
+//         });
+//       })
+//     })
+//     .catch((err) => console.log(err))
+//   })
+
+// }
+
+// Promise.all(arrayPromise2)
+// .then((result) => {
+//   result.map(respuesta => {
+//     return {
+//       status: console.log(respuesta.status),
+//       ok: console.log(respuesta.statusText)
+//     };
+//   })
+// })
+// .catch((err) => console.log(err))
 
 //console.log (all.then)
 
@@ -239,5 +275,6 @@ module.exports = {
   ext,
   recorrerArrayFiles,
   promise,
+  allPromise
 
 }
