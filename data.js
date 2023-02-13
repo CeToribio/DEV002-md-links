@@ -2,11 +2,9 @@ const fs = require('fs');
 const path = require('path');
 const axios = require('axios')
 
-
 // const regexMdLinks = /\[([^\[]+)\](\(.*\))/gm
 // const fullLinkOnlyRegex = /^\[([\w\s\d]+)\]\((https?:\/\/[\w\d./?=#]+)\)$/
 // const regex = /^\[([\w\s\d]+)\]\(((?:\/|https?:\/\/)[\w\d./?=#]+)\)$/
-
 
 //si la ruta existe o no
 const exist = (route) => fs.existsSync(route);
@@ -47,9 +45,9 @@ const regexLinks = /\[(.+?)\]\((https?:\/\/[^\s]+)(?: "(.+)")?\)|(https?:\/\/[^\
 const urlRegex = /\((https?:\/\/[^\s]+)(?: "(.+)")?\)|(https?:\/\/[^\s]+)/ig;
 const textRegex = /\[(\w+.+?)\]/gi;
 
-function arrayLinks(file, arrayObjetos = []) {
+function arrayLinks(file) {
   fs.readFile(`${file}`, 'utf-8', (err, contenido) => {
-    //const arrayObjetos = [];
+    const arrayObjetos = [];
     if (err) {
       console.log(err);
     } else {
