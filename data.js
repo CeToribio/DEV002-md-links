@@ -54,7 +54,7 @@ function arrayLinks(file) {
       //  console.log(contenido);
       if (regexLinks.test(contenido) === false) {
         //aumentar el router del file-  nose encontro link en
-        console.log('no hay links para verificar')
+        console.log('No hay links para verificar en la ruta ' + `${file}` )
       } else {
         const matches = contenido.match(regexLinks)
         //console.log(matches)

@@ -9,7 +9,7 @@ const { exist,
 
 
 
-const mdLinks = (route, option1, option2) => {
+const mdLinks = (route, options) => {
   return new Promise((resolve, reject) => {
     const arrayFiles = [];
     
@@ -40,20 +40,30 @@ const mdLinks = (route, option1, option2) => {
         //console.log(file);
         arrayLinks(file)
         //console.log(arrayObjetos)
-        //promise(arrayObjetos)
+       
       });
       
-      
+      //promise(arrayObjetos)
       //console.log(arrayObjetos)
       //const arrayPromise = []
       //promise(arrayObjetos,arrayPromise)
       //const arrayObjetos = 
       //promise(arrayObjetos)
-      // if (options === "--validate") {
+    
+
+
+  // if (options[0] === undefined && options[1] === undefined) {
         
       // }
+      // else if(options[0] === "--validate" && options[1] === undefined){
 
+      // }
+      // else if(options[0] === "--stats" && options[1] === undefined ){
 
+      // }
+      // else if(options[0] === "--validate" && options[1] === "--stats" ){
+
+      // }
 
 
 
