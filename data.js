@@ -1,6 +1,7 @@
 const fs = require('fs');
 const path = require('path');
-const axios = require('axios')
+const axios = require('axios');
+const { resolve } = require('path');
 
 // const regexMdLinks = /\[([^\[]+)\](\(.*\))/gm
 // const fullLinkOnlyRegex = /^\[([\w\s\d]+)\]\((https?:\/\/[\w\d./?=#]+)\)$/
@@ -45,42 +46,68 @@ const regexLinks = /\[(.+?)\]\((https?:\/\/[^\s]+)(?: "(.+)")?\)|(https?:\/\/[^\
 const urlRegex = /\((https?:\/\/[^\s]+)(?: "(.+)")?\)|(https?:\/\/[^\s]+)/ig;
 const textRegex = /\[(\w+.+?)\]/gi;
 
-function arrayLinks(file) {
-  fs.readFile(`${file}`, 'utf-8', (err, contenido) => {
-    const arrayObjetos = [];
-    if (err) {
-      console.log(err);
-    } else {
-      //  console.log(contenido);
-      if (regexLinks.test(contenido) === false) {
-        //aumentar el router del file-  nose encontro link en
-        console.log('No hay links para verificar en la ruta ' + `${file}` )
-      } else {
-        const matches = contenido.match(regexLinks)
-        //console.log(matches)
-        matches.forEach((item) => {
-          const matchestext = item.match(textRegex);
-          let unidadText = "";
-          let puroText = ['sin texto']
-          if (matchestext) {
-            //console.log(matchestext)
-            unidadText = matchestext[0];
-            puroText = unidadText.replace(/\[|\]/g, '').split(',');
-          }
-          const matchesLink = item.match(urlRegex)
-          //console.log(matchesLink)
-          const unidadLink = matchesLink[0];
-          const puroLink = unidadLink.replace(/\(|\)/g, '').split(',');
+// funcion para recorrer los el array de files
+const recorrerArrayFiles = (arrayFiles) => {
+  const newArray = []
+  return new Promise((resolve, reject) => {
+    arrayFiles.forEach((file,index) => {
+      //console.log(arrayFiles.length)
+      // console.log(index)
+      fs.readFile(`${file}`, 'utf-8', (err, contenido) => {
+        if (err) {
+          reject ('error recorreArray');
+        } else {
+            newArray.push(arrayLinks(file, contenido))
+            //const newArray = arrayLinks(file, contenido)
+          //console.log('newArray', newArray)
+           if(index === (arrayFiles.length - 1)){
+            const merge = [].concat(...newArray)
+            //console.log('merge',merge)
+            resolve (merge)
+           }
+        }
+      })
+    }) 
+    
+    
+  })
+  
 
-          arrayObjetos.push({ href: puroLink[0], text: puroText[0], path:`${file}` })
-
-        });
-        console.log(arrayObjetos);
-        return arrayObjetos
-      }
-    }
-  });
 }
+
+
+//  funcion para encontrar links y botar el objeto
+const arrayLinks = (file, contenido) => {
+  const arrayObjetos = []
+  if (regexLinks.test(contenido) === false) {
+    console.log('No hay links para verificar en la ruta ' + `${file}`)
+  } else {
+    const matches = contenido.match(regexLinks)
+    //console.log(matches)
+    matches.forEach((item) => {
+      const matchestext = item.match(textRegex);
+      let unidadText = "";
+      let puroText = ['sin texto']
+      if (matchestext) {
+        //console.log(matchestext)
+        unidadText = matchestext[0];
+        puroText = unidadText.replace(/\[|\]/g, '').split(',');
+      }
+      const matchesLink = item.match(urlRegex)
+      //console.log(matchesLink)
+      const unidadLink = matchesLink[0];
+      const puroLink = unidadLink.replace(/\(|\)/g, '').split(',');
+
+      arrayObjetos.push({ href: puroLink[0], text: puroText[0], path: `${file}` })
+      //console.log('dentro',arrayObjetos)
+      //return arrayObjetos
+
+    })
+    //console.log('fuera del foreach', arrayObjetos)
+    return arrayObjetos;
+  }
+}
+
 
 //prueba validacion de link
 
@@ -108,7 +135,7 @@ pruebaLinks.map(link => arrayPromise.push(axios.get(link)))
 //tengo q obtener los links recorriendo
 //esta leyendo el array vacio
 //revisar como otras ideas para poder leer el array de los links
-const promise = (arrayLinks) =>  console.log(arrayLinks)
+const promise = (arrayLinks) => console.log(arrayLinks)
 //muestra el erro pero muestra los corectos
 // pruebaLinks.map(link => axios.get(link)
 //   .then((result) => {
@@ -128,7 +155,7 @@ const promise = (arrayLinks) =>  console.log(arrayLinks)
 //Mauro return axios.get(url).then(res=> return ….)
 //acepta promesas no resueltas
 //const allPromise =(arrayPromise)=>{
-   Promise.all(arrayPromise)
+Promise.all(arrayPromise)
   .then((result) => {
     result.map(respuesta => {
       return {
@@ -202,6 +229,7 @@ function readAllFiles(route, newarray = []) {
 // console.log(readAllFiles('./carpeta', arrayOfFiles ));
 
 
+
 module.exports = {
   exist,
   absolute,
@@ -209,7 +237,7 @@ module.exports = {
   isDirectory,
   isFile,
   ext,
-  arrayLinks,
-  promise
+  recorrerArrayFiles,
+  promise,
 
 }

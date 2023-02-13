@@ -4,7 +4,7 @@ const { exist,
   isFile,
   isDirectory,
   ext,
-  arrayLinks,
+  recorrerArrayFiles,
   promise } = require('./data.js');
 
 
@@ -35,16 +35,27 @@ const mdLinks = (route, options) => {
       }
 
       //const arrayObjetos = [];
-      //console.log(arrayObjetos)
-     arrayFiles.forEach(file => {
+    //  const arrayObjetos = arrayFiles.map(file => {
         //console.log(file);
-        arrayLinks(file)
+        //console.log(arrayObjetos);
+        // const arrayObjetos = arrayLinks(arrayFiles)
+        // console.log('arrayojetos',arrayObjetos)
+        
+        const arrayObjetos = recorrerArrayFiles(arrayFiles)
+        .then ((result) => {
+          console.log('arrayObjetos',result)
+        })
+        
+
         //console.log(arrayObjetos)
        
-      });
+      // });
       
-      //promise(arrayObjetos)
-      //console.log(arrayObjetos)
+    // promise(arrayObjetos)
+    // .then((result) => {
+    //   console.log(result)
+    // })
+      
       //const arrayPromise = []
       //promise(arrayObjetos,arrayPromise)
       //const arrayObjetos = 
