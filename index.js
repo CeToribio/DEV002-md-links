@@ -11,17 +11,30 @@ const { exist,
 
 
 
-const mdLinks = (route, options) => {
+const mdLinks = (route, options = {validate : false, stats: false}) => {
+  
   return new Promise((resolve, reject) => {
     const arrayFiles = [];
 
     //const arrayObjetos = [];
     //identificar si la ruta existe envia un error 
     if (exist(route)) {
-      console.log('true')
+      if (options.validate === false && options.stats === false) {
+        console.log("ninguna opcion")
+      }
+      else if (options.validate === true && options.stats === false) {
+        console.log("option validate")
+      }
+      else if (options[0] === "--stats" && options[1] === undefined) {
+        console.log("option stas")
+      }
+      else if (options[0] === "--validate" && options[1] === "--stats") {
+        console.log("ambas opciones")
+      }
+      //console.log('true')
       //convertir la ruta a absoluta
       const routeAbsolute = absolute(route)
-      console.log(routeAbsolute)
+      //console.log(routeAbsolute)
       //recorrer y obtener arrays de archivos
       if (isDirectory(routeAbsolute)) {
         //  console.log(arrayFiles)
@@ -45,7 +58,7 @@ const mdLinks = (route, options) => {
           allPromise(result)
             .then((result) => {
               console.log('validate&stats', statsAndValidate(result))
-              console.log(result)
+              //console.log(result)
             })
 
           //console.log(promise)

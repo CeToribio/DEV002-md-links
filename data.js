@@ -55,7 +55,7 @@ const textRegex = /\[(\w+.+?)\]/gi;
 const arrayLinks = (file, contenido) => {
   const arrayObjetos = []
   if (regexLinks.test(contenido) === false) {
-    console.log(['No hay links para verificar en la ruta ' + `${file}`])
+    console.log('No hay links para verificar en la ruta ' + `${file}`)
     return []
   } else {
     const matches = contenido.match(regexLinks)
@@ -118,10 +118,10 @@ const allPromise = (arrayLinks) => {
 
       })
       .catch((err) => {
-        console.log(err.errno);
+        //console.log(err.errno);
         const objectValidate = {
           ...link,
-          status: err.response?'404':'código no detectado',
+          status: err.response ? 404 : 'ERROR',
           //err.errno, o es 404, o es "ERROR"
           ok: "fail"
         }
