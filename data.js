@@ -22,16 +22,11 @@ const isFile = (route) => fs.statSync(route).isFile();
 const ext = (route) => path.extname(route);
 // console.log(ext);
 
-
-const regexLinks = /\[(.+?)\]\((https?:\/\/[^\s]+)(?: "(.+)")?\)|(https?:\/\/[^\s]+)/ig;
-const urlRegex = /\((https?:\/\/[^\s]+)(?: "(.+)")?\)|(https?:\/\/[^\s]+)/ig;
-const textRegex = /\[(\w+.+?)\]/gi;
-
 // funcion para recorrer los el array de files
 const recorrerArrayFiles = (arrayFiles) => {
   const newArray = []
   return new Promise((resolve, reject) => {
-   
+
     arrayFiles.map((file, index) => {
       //console.log(arrayFiles.length)
       // console.log(index)
@@ -53,13 +48,18 @@ const recorrerArrayFiles = (arrayFiles) => {
   });
 }
 
+const regexLinks = /\[(.+?)\]\((https?:\/\/[^\s]+)(?: "(.+)")?\)|(https?:\/\/[^\s]+)/ig;
+const urlRegex = /\((https?:\/\/[^\s]+)(?: "(.+)")?\)|(https?:\/\/[^\s]+)/ig;
+const textRegex = /\[(\w+.+?)\]/gi;
 //  funcion para encontrar links y botar el objeto
 const arrayLinks = (file, contenido) => {
   const arrayObjetos = []
   if (regexLinks.test(contenido) === false) {
-    console.log('No hay links para verificar en la ruta ' + `${file}`)
+    console.log(['No hay links para verificar en la ruta ' + `${file}`])
+    return []
   } else {
     const matches = contenido.match(regexLinks)
+
     //console.log(matches)
     matches.forEach((item) => {
       const matchestext = item.match(textRegex);
@@ -109,28 +109,28 @@ const arrayLinks = (file, contenido) => {
 const allPromise = (arrayLinks) => {
   const validate = arrayLinks.map((link) => {
     return axios.get(link.href)
-    .then((result) => {
-      const objectValidate = {
-        ...link,
-        status: result.status,
-        ok: result.statusText
-      }
-      //console.log(objectValidate)
-      return objectValidate
+      .then((result) => {
+        const objectValidate = {
+          ...link,
+          status: result.status,
+          ok: result.statusText
+        }
+        //console.log(objectValidate)
+        return objectValidate
 
-    })
-    .catch((err) => {
-      //console.log(err);
-      const objectValidate = {
-        ...link,
-        status: err?.result?.status,
-        ok: "fail"
-      }
-      //console.log(objectValidate)
-      return objectValidate
+      })
+      .catch((err) => {
+        console.log(err.errno);
+        const objectValidate = {
+          ...link,
+          status: err.response?'404':'código no detectado',
+          //err.errno, o es 404, o es "ERROR"
+          ok: "fail"
+        }
+        //console.log(objectValidate)
+        return objectValidate
 
-    })
-
+      })
   })
 
   return Promise.all(validate)
@@ -139,12 +139,12 @@ const allPromise = (arrayLinks) => {
 
 //obtener el resultado de la opcion stats
 const statsResult = (arrayObjeto) => {
- const arrayLink = arrayObjeto.map(element => element.href);
- const uniqueLink = new Set(arrayLink);
- return {
-      Total: arrayLink.length,
-      Unique: uniqueLink.size
- }
+  const arrayLink = arrayObjeto.map(element => element.href);
+  const uniqueLink = new Set(arrayLink);
+  return {
+    Total: arrayLink.length,
+    Unique: uniqueLink.size
+  }
 }
 
 //obtener el resultado de la opcion stats y validate
@@ -153,11 +153,11 @@ const statsAndValidate = (arrayObjeto) => {
   const uniqueLink = new Set(arrayLink);
   const brokenLink = arrayObjeto.filter(element => element.ok === 'fail')
   return {
-       Total: arrayLink.length,
-       Unique: uniqueLink.size,
-       Broken: brokenLink.length
+    Total: arrayLink.length,
+    Unique: uniqueLink.size,
+    Broken: brokenLink.length
   }
- }
+}
 
 //console.log(arrayPromise)
 
@@ -181,6 +181,7 @@ const statsAndValidate = (arrayObjeto) => {
 // -----------------funcion recursiva
 // const arrayOfFiles = []
 function readAllFiles(route, newarray = []) {
+  //const newarray = []
   const files = fs.readdirSync(route)
   //console.log(files);
   files.forEach(file => {

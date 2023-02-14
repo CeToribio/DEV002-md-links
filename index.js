@@ -14,7 +14,7 @@ const { exist,
 const mdLinks = (route, options) => {
   return new Promise((resolve, reject) => {
     const arrayFiles = [];
-    
+
     //const arrayObjetos = [];
     //identificar si la ruta existe envia un error 
     if (exist(route)) {
@@ -35,45 +35,46 @@ const mdLinks = (route, options) => {
           console.log("no hay archivos .md")
         }
       }
-        
-        recorrerArrayFiles(arrayFiles)
-        .then ((result) => {
+
+      recorrerArrayFiles(arrayFiles)
+        .then((result) => {
           //console.log(result)
-          console.log('stats',statsResult(result))
+          console.log('stats', statsResult(result))
           allPromise(result)
-          .then((result) => {
-            console.log('validate&stats',statsAndValidate(result))
-            console.log(result)})
-      
+            .then((result) => {
+              console.log('validate&stats', statsAndValidate(result))
+              console.log(result)
+            })
+
           //console.log(promise)
           // const arrayPromise = result.map(element => {
           //   console.log(element.href)
           //  return( promise(element.href))
-          });
-          
-          // console.log(arrayPromise)
-          // allPromise(arrayPromise)
-          // .then(result => console.log('res', result))
-          
-          //console.log('result',status)
-          
-          
-        // })
-        
+        });
 
-        //console.log(arrayObjetos)
-       
+      // console.log(arrayPromise)
+      // allPromise(arrayPromise)
+      // .then(result => console.log('res', result))
+
+      //console.log('result',status)
+
+
+      // })
+
+
+      //console.log(arrayObjetos)
+
       // });
-      
-    // promise(arrayObjetos)
-    // .then((result) => {
-    //   console.log(result)
-    // })
-    
+
+      // promise(arrayObjetos)
+      // .then((result) => {
+      //   console.log(result)
+      // })
 
 
-  // if (options[0] === undefined && options[1] === undefined) {
-        
+
+      // if (options[0] === undefined && options[1] === undefined) {
+
       // }
       // else if(options[0] === "--validate" && options[1] === undefined){
 
