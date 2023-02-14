@@ -31,24 +31,24 @@ const textRegex = /\[(\w+.+?)\]/gi;
 const recorrerArrayFiles = (arrayFiles) => {
   const newArray = []
   return new Promise((resolve, reject) => {
-    arrayFiles.map((file,index) => {
+    arrayFiles.map((file, index) => {
       //console.log(arrayFiles.length)
       // console.log(index)
       fs.readFile(`${file}`, 'utf-8', (err, contenido) => {
         if (err) {
-          reject ('error recorreArray');
+          reject('error recorreArray');
         } else {
           newArray.push(arrayLinks(file, contenido));
           const merge = [].concat(...newArray)
-           if(index === (arrayFiles.length - 1)){
+          if (index === (arrayFiles.length - 1)) {
             //const newArray = arrayLinks(file, contenido)
             //console.log('newArray', newArray)
             //console.log('merge',merge)
-            resolve (merge)
-           }
+            resolve(merge)
+          }
         }
       });
-    });  
+    });
   });
 }
 
@@ -91,36 +91,54 @@ const arrayLinks = (file, contenido) => {
 //   return new Promise((resolve,reject) => { 
 //     arrayPromise.push(axios.get(link))
 //     resolve (arrayPromise)
-    
+
 //   })
 // } 
 //---------prueba sin promesa
- const promise = (link) => {
-  const arrayPromise = [] 
-    arrayPromise.push(axios.get(link))
-    return arrayPromise
-    
-  }
+const promise = (link) => {
+  const arrayPromise = []
+  arrayPromise.push(axios.get(link))
+  return arrayPromise
+
+}
 
 //pruebaLinks.map(link => arrayPromise.push(axios.get(link)))
 
 const allPromise = (arrayLinks) => {
-  arrayLinks.map((link) => {axios.get(link.href)
-  .then((result) => {
-    const objectValidate =  {
-      ...link,
-      status: result.status,
-      ok: result.statusText
-    }
-
-      console.log(objectValidate)
+  //const arrayValidate = []
+  const validate = arrayLinks.map((link) => {
+    return axios.get(link.href)
+    .then((result) => {
+      const objectValidate = {
+        ...link,
+        status: result.status,
+        ok: result.statusText
+      }
+      //arrayValidate.push(objectValidate)
+      //console.log(arrayValidate)
+      //console.log(objectValidate)
       return objectValidate
+
+    })
+    .catch((err) => {
+      //console.log(err);
+      const objectValidate = {
+        ...link,
+        status: err?.result?.status,
+        ok: "Fail"
+      }
+      //arrayValidate.push(objectValidate)
+      //console.log(arrayValidate)
+      //console.log(objectValidate)
+      return objectValidate
+
     })
 
-  .catch((err) => console.log(err))
-  
+  })
+
+  return Promise.all(validate)
+
 }
-)}
 
 //console.log(arrayPromise)
 

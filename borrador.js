@@ -89,3 +89,12 @@
 //     return arrayObjetos
     
 //   }
+
+//---- prueba de funcion md links
+
+ //const arrayObjetos = [];
+    //  const arrayObjetos = arrayFiles.map(file => {
+        //console.log(file);
+        //console.log(arrayObjetos);
+        // const arrayObjetos = arrayLinks(arrayFiles)
+        // console.log('arrayojetos',arrayObjetos)

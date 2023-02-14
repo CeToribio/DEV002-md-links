@@ -34,20 +34,12 @@ const mdLinks = (route, options) => {
           console.log("no hay archivos .md")
         }
       }
-
-      //const arrayObjetos = [];
-    //  const arrayObjetos = arrayFiles.map(file => {
-        //console.log(file);
-        //console.log(arrayObjetos);
-        // const arrayObjetos = arrayLinks(arrayFiles)
-        // console.log('arrayojetos',arrayObjetos)
-
-        //--------aqui
         
         const arrayObjetos = recorrerArrayFiles(arrayFiles)
         .then ((result) => {
-          console.log(result)
+          //console.log(result)
           allPromise(result)
+          .then((result) => console.log(result))
       
           //console.log(promise)
           // const arrayPromise = result.map(element => {
@@ -73,11 +65,6 @@ const mdLinks = (route, options) => {
     // .then((result) => {
     //   console.log(result)
     // })
-      
-      //const arrayPromise = []
-      //promise(arrayObjetos,arrayPromise)
-      //const arrayObjetos = 
-      //promise(arrayObjetos)
     
 
 
