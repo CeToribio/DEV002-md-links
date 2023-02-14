@@ -31,6 +31,7 @@ const textRegex = /\[(\w+.+?)\]/gi;
 const recorrerArrayFiles = (arrayFiles) => {
   const newArray = []
   return new Promise((resolve, reject) => {
+   
     arrayFiles.map((file, index) => {
       //console.log(arrayFiles.length)
       // console.log(index)
@@ -40,7 +41,7 @@ const recorrerArrayFiles = (arrayFiles) => {
         } else {
           newArray.push(arrayLinks(file, contenido));
           const merge = [].concat(...newArray)
-          if (index === (arrayFiles.length - 1)) {
+          if (index === (arrayFiles.length  - 1 )) {
             //const newArray = arrayLinks(file, contenido)
             //console.log('newArray', newArray)
             //console.log('merge',merge)
@@ -95,17 +96,16 @@ const arrayLinks = (file, contenido) => {
 //   })
 // } 
 //---------prueba sin promesa
-const promise = (link) => {
-  const arrayPromise = []
-  arrayPromise.push(axios.get(link))
-  return arrayPromise
+// const promise = (link) => {
+//   const arrayPromise = []
+//   arrayPromise.push(axios.get(link))
+//   return arrayPromise
 
-}
+// }
 
 //pruebaLinks.map(link => arrayPromise.push(axios.get(link)))
 
 const allPromise = (arrayLinks) => {
-  //const arrayValidate = []
   const validate = arrayLinks.map((link) => {
     return axios.get(link.href)
     .then((result) => {
@@ -114,8 +114,6 @@ const allPromise = (arrayLinks) => {
         status: result.status,
         ok: result.statusText
       }
-      //arrayValidate.push(objectValidate)
-      //console.log(arrayValidate)
       //console.log(objectValidate)
       return objectValidate
 
@@ -125,10 +123,8 @@ const allPromise = (arrayLinks) => {
       const objectValidate = {
         ...link,
         status: err?.result?.status,
-        ok: "Fail"
+        ok: "fail"
       }
-      //arrayValidate.push(objectValidate)
-      //console.log(arrayValidate)
       //console.log(objectValidate)
       return objectValidate
 
@@ -139,6 +135,28 @@ const allPromise = (arrayLinks) => {
   return Promise.all(validate)
 
 }
+
+//obtener el resultado de la opcion stats
+const statsResult = (arrayObjeto) => {
+ const arrayLink = arrayObjeto.map(element => element.href);
+ const uniqueLink = new Set(arrayLink);
+ return {
+      Total: arrayLink.length,
+      Unique: uniqueLink.size
+ }
+}
+
+//obtener el resultado de la opcion stats y validate
+const statsAndValidate = (arrayObjeto) => {
+  const arrayLink = arrayObjeto.map(element => element.href);
+  const uniqueLink = new Set(arrayLink);
+  const brokenLink = arrayObjeto.filter(element => element.ok === 'fail')
+  return {
+       Total: arrayLink.length,
+       Unique: uniqueLink.size,
+       Broken: brokenLink.length
+  }
+ }
 
 //console.log(arrayPromise)
 
@@ -195,7 +213,8 @@ module.exports = {
   isFile,
   ext,
   recorrerArrayFiles,
-  promise,
-  allPromise
+  allPromise,
+  statsResult,
+  statsAndValidate
 
 }
