@@ -41,7 +41,7 @@ const recorrerArrayFiles = (arrayFiles) => {
         } else {
           newArray.push(arrayLinks(file, contenido));
           const merge = [].concat(...newArray)
-          if (index === (arrayFiles.length  - 1 )) {
+          if (index === (arrayFiles.length - 1)) {
             //const newArray = arrayLinks(file, contenido)
             //console.log('newArray', newArray)
             //console.log('merge',merge)
@@ -84,6 +84,7 @@ const arrayLinks = (file, contenido) => {
     return arrayObjetos;
   }
 }
+
 
 
 // validacion de link
