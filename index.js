@@ -11,26 +11,14 @@ const { exist,
 
 
 
-const mdLinks = (route, options = {validate : false, stats: false}) => {
-  
+const mdLinks = (route, options = { validate: false, stats: false }) => {
+
   return new Promise((resolve, reject) => {
     const arrayFiles = [];
 
     //const arrayObjetos = [];
     //identificar si la ruta existe envia un error 
     if (exist(route)) {
-      if (options.validate === false && options.stats === false) {
-        console.log("ninguna opcion")
-      }
-      else if (options.validate === true && options.stats === false) {
-        console.log("option validate")
-      }
-      else if (options[0] === "--stats" && options[1] === undefined) {
-        console.log("option stas")
-      }
-      else if (options[0] === "--validate" && options[1] === "--stats") {
-        console.log("ambas opciones")
-      }
       //console.log('true')
       //convertir la ruta a absoluta
       const routeAbsolute = absolute(route)
@@ -38,8 +26,8 @@ const mdLinks = (route, options = {validate : false, stats: false}) => {
       //recorrer y obtener arrays de archivos
       if (isDirectory(routeAbsolute)) {
         //  console.log(arrayFiles)
-        console.log(readAllFiles(route, arrayFiles));
-        //const arrayFiles = readAllFiles(route);
+        readAllFiles(route, arrayFiles);
+        //console.log(readAllFiles(route, arrayFiles));
         //console.log(arrayFiles)
       } else {
         //si es extension .md guarde 
@@ -51,57 +39,78 @@ const mdLinks = (route, options = {validate : false, stats: false}) => {
         }
       }
 
-      recorrerArrayFiles(arrayFiles)
-        .then((result) => {
-          //console.log(result)
-          console.log('stats', statsResult(result))
-          allPromise(result)
-            .then((result) => {
-              console.log('validate&stats', statsAndValidate(result))
-              //console.log(result)
-            })
+      if (options.validate === true && options.stats === true) {
+        console.log("elegiste ambas opciones")
 
-          //console.log(promise)
-          // const arrayPromise = result.map(element => {
-          //   console.log(element.href)
-          //  return( promise(element.href))
-        });
+        recorrerArrayFiles(arrayFiles)
+          .then((result) => {
+            //console.log(result)
+            allPromise(result)
+              .then((result) => {
+                //console.log(result)
+                const statsValidate = statsAndValidate(result)
+                console.log("ambas opciones", statsValidate)
+                resolve(statsValidate)
+              })
+          });
 
-      // console.log(arrayPromise)
-      // allPromise(arrayPromise)
-      // .then(result => console.log('res', result))
+      } else if (options.validate === false && options.stats === true) {
+        console.log("elegiste la opción stats")
 
-      //console.log('result',status)
+        recorrerArrayFiles(arrayFiles)
+          .then((result) => {
+            //console.log(result)
+            const stats = statsResult(result)
+            console.log("opción stats", stats)
+            resolve(stats)
 
+          });
+      } else if (options.validate === true && options.stats === false) {
+        console.log("elegiste la opción validate ")
 
-      // })
+        recorrerArrayFiles(arrayFiles)
+          .then((result) => {
+            //console.log(result)
+            allPromise(result)
+              .then((result) => {
+                const validate = result
+                resolve(validate)
+                console.log('opcion validate', validate)
+              })
+          });
+      } else {
+        console.log("No elegiste ninguna opción")
 
+        recorrerArrayFiles(arrayFiles)
+          .then((result) => {
+            //console.log(result)
+            const anyOption = result;
+            resolve(anyOption)
+            console.log('any option', anyOption)
 
-      //console.log(arrayObjetos)
+            //console.log(promise)
+            // const arrayPromise = result.map(element => {
+            //   console.log(element.href)
+            //  return( promise(element.href))
+          });
 
-      // });
+      }
 
-      // promise(arrayObjetos)
-      // .then((result) => {
-      //   console.log(result)
-      // })
+      // recorrerArrayFiles(arrayFiles)
+      //   .then((result) => {
+      //     //console.log(result)
+      //     console.log('stats', statsResult(result))
+      //     allPromise(result)
+      //       .then((result) => {
+      //         console.log('validate&stats', statsAndValidate(result))
+      //         console.log(result)
+      //       })
 
-
-
-      // if (options[0] === undefined && options[1] === undefined) {
-
-      // }
-      // else if(options[0] === "--validate" && options[1] === undefined){
-
-      // }
-      // else if(options[0] === "--stats" && options[1] === undefined ){
-
-      // }
-      // else if(options[0] === "--validate" && options[1] === "--stats" ){
-
-      // }
-
-
+      //     //console.log(promise)
+      //     // const arrayPromise = result.map(element => {
+      //     //   console.log(element.href)
+      //     //  return( promise(element.href))
+      //   });
 
     } else {
       reject('La ruta no existe');
