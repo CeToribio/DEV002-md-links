@@ -46,13 +46,15 @@ const mdLinks = (route, options) => {
         
         const arrayObjetos = recorrerArrayFiles(arrayFiles)
         .then ((result) => {
-          //console.log(result)
+          console.log(result)
           allPromise(result)
+      
           //console.log(promise)
           // const arrayPromise = result.map(element => {
           //   console.log(element.href)
           //  return( promise(element.href))
           });
+          
           // console.log(arrayPromise)
           // allPromise(arrayPromise)
           // .then(result => console.log('res', result))

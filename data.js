@@ -3,44 +3,25 @@ const path = require('path');
 const axios = require('axios');
 const { resolve } = require('path');
 
-// const regexMdLinks = /\[([^\[]+)\](\(.*\))/gm
-// const fullLinkOnlyRegex = /^\[([\w\s\d]+)\]\((https?:\/\/[\w\d./?=#]+)\)$/
-// const regex = /^\[([\w\s\d]+)\]\(((?:\/|https?:\/\/)[\w\d./?=#]+)\)$/
 
 //si la ruta existe o no
 const exist = (route) => fs.existsSync(route);
 // regresa un booleano
 // console.log(exist)
 
-// ------------ metodo para convertir la ruta absoluta
+// metodo para convertir la ruta absoluta
 const absolute = (route) => path.resolve(route)
-
 // console.log(absolute)
 
 //-------------- comprobar si es un archivo o un directorio con la clase isDirectory o isFile, regresa un booleano
-// fs.stat('README.md',(err,contenido) => {
-//   if(err){
-//     console.log(err);
-//     throw err
-//   } else {
-//     console.log(contenido.isFile())
-//   }
-// });
-
+//regresa un booleano
 const isDirectory = (route) => fs.statSync(route).isDirectory();
 const isFile = (route) => fs.statSync(route).isFile();
 
 //------------------------obtener la extension de un archivo
-
 const ext = (route) => path.extname(route);
 // console.log(ext);
 
-//leer archivo y dar un array de objetos de links
-// function readfile(file){
-//   fs.readFile(`${file}`, 'utf-8', (err,contenido) => {
-//     console.log(contenido)
-//   })
-// }
 
 const regexLinks = /\[(.+?)\]\((https?:\/\/[^\s]+)(?: "(.+)")?\)|(https?:\/\/[^\s]+)/ig;
 const urlRegex = /\((https?:\/\/[^\s]+)(?: "(.+)")?\)|(https?:\/\/[^\s]+)/ig;
@@ -66,13 +47,10 @@ const recorrerArrayFiles = (arrayFiles) => {
             resolve (merge)
            }
         }
-      })
-    })   
-    
-  })
-
+      });
+    });  
+  });
 }
-
 
 //  funcion para encontrar links y botar el objeto
 const arrayLinks = (file, contenido) => {
@@ -107,32 +85,7 @@ const arrayLinks = (file, contenido) => {
 }
 
 
-//prueba validacion de link
-
-const linkprueba = 'https://developer.mozilla.org/es/docs/Web/JavaScript/Reference/Global_Objects/RegExp/exec';
-const linkprueba2 = 'https://developer.mozilla.org/es/docs/Web/JavaScript/Guide/Working_with_Objects';
-
-const pruebaLinks = ['https://developer.mozilla.org/es/docs/Web/JavaScript/Reference/Global_Objects/RegExp/exec', 'https://developer.mozilla.org/es/docs/Web/JavaScript/Guide/Working_with_Objects',
-  'https://app.netlify.com/sites/whimsical-cupcake-2f7f32/deploys/63b70d41d0fcc60d8e524575']
-const promesa1 = axios.get(linkprueba)
-const promesa2 = axios.get(linkprueba2)
-const objetoprueba = { href: 'link1' }
-
-axios.get(linkprueba)
-  .then((result) => {
-    //console.log(result.status)
-    //console.log(result.statusText)
-    objetoprueba.status = result.status
-    objetoprueba.ok = result.statusText
-    //console.log(objetoprueba)
-  })
-
-arrayPromise2 = []
-//const promise = (arrayLinks, arrayPromise = [] ) => { arrayLinks.map (link => arrayPromise.push(axios.get(link.href)))}
-pruebaLinks.map((link)=> {arrayPromise2.push(axios.get(link))} )
-console.log(arrayPromise2)
-
-
+// validacion de link
 // const promise = (link) => {
 //   arrayPromise = []
 //   return new Promise((resolve,reject) => { 
@@ -150,11 +103,7 @@ console.log(arrayPromise2)
   }
 
 //pruebaLinks.map(link => arrayPromise.push(axios.get(link)))
-//tengo q obtener los links recorriendo
-//esta leyendo el array vacio
-//revisar como otras ideas para poder leer el array de los links
-//const promise = (arrayLinks) => console.log(arrayLinks)
-//muestra el erro pero muestra los corectos
+
 const allPromise = (arrayLinks) => {
   arrayLinks.map((link) => {axios.get(link.href)
   .then((result) => {
@@ -172,11 +121,9 @@ const allPromise = (arrayLinks) => {
   
 }
 )}
-//se puede hacer desde como lo pense iterando en esta funcion y resolviendo aqui
 
 //console.log(arrayPromise)
 
-//Mauro return axios.get(url).then(res=> return ….)
 //acepta promesas no resueltas
 // const allPromise =(arrayPromise)=>{
 //   return new Promise ((resolve, reject)=> {
@@ -193,52 +140,6 @@ const allPromise = (arrayLinks) => {
 //   })
 
 // }
-
-// Promise.all(arrayPromise2)
-// .then((result) => {
-//   result.map(respuesta => {
-//     return {
-//       status: console.log(respuesta.status),
-//       ok: console.log(respuesta.statusText)
-//     };
-//   })
-// })
-// .catch((err) => console.log(err))
-
-//console.log (all.then)
-
-
-
-
-// -------------------obtener los archivos de un directorio
-
-// let files = []
-// fs.readdir('./new-file',(err, contenido) => {
-//   if(err) {
-//     console.error(err)
-//     // throw Error(err)
-//   }
-//   files = contenido
-//   console.log(files)
-// }) 
-
-// -------------- obtener los archivos de un directorio de forma individual
-// const extension = []
-// fs.readdir('./new-file', (err, archivos) => {
-//   if (err) {
-//     console.error(err)
-//     // throw Error(err)
-//   }
-//     archivos.forEach(archivo => {
-//     // extension = path.extname(archivo)
-//     // console.log(extension);
-//     if(path.extname(archivo) === '.md'){
-//       const md = extension.push(archivo)
-//     //   console.log(extension)
-//     }
-
-//   });
-// })
 
 // -----------------funcion recursiva
 // const arrayOfFiles = []
