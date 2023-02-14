@@ -85,8 +85,6 @@ const arrayLinks = (file, contenido) => {
   }
 }
 
-
-
 // validacion de link
 // const promise = (link) => {
 //   arrayPromise = []

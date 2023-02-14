@@ -26,6 +26,8 @@ const mdLinks = (route, options) => {
       if (isDirectory(routeAbsolute)) {
         //  console.log(arrayFiles)
         console.log(readAllFiles(route, arrayFiles));
+        //const arrayFiles = readAllFiles(route);
+        //console.log(arrayFiles)
       } else {
         //si es extension .md guarde 
         if (ext(route) === '.md') {
