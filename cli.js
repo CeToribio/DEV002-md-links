@@ -1,6 +1,6 @@
 const { mdLinks } = require('./index.js');
 
-mdLinks('./README.md', {validate:false, stats:false})
+mdLinks('./README.md', { validate: false, stats: true })
     .then(() => { })
     .catch((error) => {
         console.log(error)

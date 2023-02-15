@@ -9,8 +9,6 @@ const { exist,
   statsResult,
   statsAndValidate } = require('./data.js');
 
-
-
 const mdLinks = (route, options = { validate: false, stats: false }) => {
 
   return new Promise((resolve, reject) => {
@@ -65,6 +63,7 @@ const mdLinks = (route, options = { validate: false, stats: false }) => {
             resolve(stats)
 
           });
+
       } else if (options.validate === true && options.stats === false) {
         console.log("elegiste la opción validate ")
 
@@ -78,6 +77,7 @@ const mdLinks = (route, options = { validate: false, stats: false }) => {
                 console.log('opcion validate', validate)
               })
           });
+
       } else {
         console.log("No elegiste ninguna opción")
 
