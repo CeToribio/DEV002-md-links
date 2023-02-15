@@ -9,11 +9,10 @@ const { exist,
   statsResult,
   statsAndValidate } = require('./data.js');
 
+
 const mdLinks = (route, options = { validate: false, stats: false }) => {
-
   return new Promise((resolve, reject) => {
-    const arrayFiles = [];
-
+    let arrayFiles = [];
     //const arrayObjetos = [];
     //identificar si la ruta existe envia un error 
     if (exist(route)) {

@@ -1,7 +1,7 @@
 const { mdLinks } = require('./index.js');
 
-mdLinks('./README.md', { validate: false, stats: true })
-    .then(() => { })
+mdLinks('./carpeta', { validate: true, stats: true })
+    .then((result) => { result})
     .catch((error) => {
         console.log(error)
     })
