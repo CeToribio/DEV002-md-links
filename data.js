@@ -1,7 +1,7 @@
 const fs = require('fs');
 const path = require('path');
 const axios = require('axios');
-const { resolve } = require('path');
+//const { resolve } = require('path');
 
 
 //si la ruta existe o no
@@ -27,7 +27,7 @@ const recorrerArrayFiles = (arrayFiles) => {
   const newArray = []
   return new Promise((resolve, reject) => {
 
-    arrayFiles.map((file, index) => {
+    arrayFiles.forEach((file, index) => {
       //console.log(arrayFiles.length)
       // console.log(index)
       fs.readFile(`${file}`, 'utf-8', (err, contenido) => {
@@ -41,6 +41,7 @@ const recorrerArrayFiles = (arrayFiles) => {
             //console.log('newArray', newArray)
             //console.log('merge',merge)
             resolve(merge)
+            return merge
           }
         }
       });
@@ -200,6 +201,19 @@ function readAllFiles(route, newarray = []) {
 
 }
 
+function readAllFilesRevuersive(route) {
+  if (isDirectory(route)) {
+    const files = fs.readdirSync(route)
+    //readAllFilesRevuersive(files)
+    return files.map((file) => {
+      return readAllFilesRevuersive(`${route}/${file}`)
+    }).flat()
+
+  } else {
+    return [route]
+  }
+}
+
 // arrayOfFiles = []
 // console.log(readAllFiles('./carpeta', arrayOfFiles ));
 
@@ -215,6 +229,7 @@ module.exports = {
   recorrerArrayFiles,
   allPromise,
   statsResult,
-  statsAndValidate
+  statsAndValidate,
+  readAllFilesRevuersive
 
 }

@@ -7,12 +7,13 @@ const { exist,
   recorrerArrayFiles,
   allPromise,
   statsResult,
-  statsAndValidate } = require('./data.js');
+  statsAndValidate,
+  readAllFilesRevuersive } = require('./data.js');
 
 
 const mdLinks = (route, options = { validate: false, stats: false }) => {
   return new Promise((resolve, reject) => {
-    let arrayFiles = [];
+    const arrayFiles = [];
     //const arrayObjetos = [];
     //identificar si la ruta existe envia un error 
     if (exist(route)) {
@@ -23,16 +24,30 @@ const mdLinks = (route, options = { validate: false, stats: false }) => {
       //recorrer y obtener arrays de archivos
       if (isDirectory(routeAbsolute)) {
         //  console.log(arrayFiles)
-        readAllFiles(route, arrayFiles);
+        //readAllFiles(routeAbsolute, arrayFiles);
+        const filerecursive = readAllFilesRevuersive(routeAbsolute)
+        //console.log('recursive',filerecursive)
+        //filtrar .md
+        filerecursive.forEach(file => {
+          if (ext(file) === '.md') {
+            //console.log(arrayFiles)
+            arrayFiles.push(file)
+          } else {
+            if (arrayFiles === []) {
+              console.log("no hay archivos .md")
+            }
+          }
+        })
+        //console.log(arrayFiles)
         //console.log(readAllFiles(route, arrayFiles));
         //console.log(arrayFiles)
       } else {
         //si es extension .md guarde 
-        if (ext(route) === '.md') {
+        if (ext(routeAbsolute) === '.md') {
           //console.log(arrayFiles)
           arrayFiles.push(route)
         } else {
-          console.log("no hay archivos .md")
+          console.log("no es un archivos .md")
         }
       }
 
