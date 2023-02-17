@@ -6,11 +6,6 @@
 * [2. Objetivo del proyecto](#2-objetivo-del-rpyecto)
 * [3. Plan de acción](#3-plan-de-acción)
 * [4. Proyecto](#5-proyecto)
-* [6. Entregables](#6-entregables)
-* [7. Hacker edition](#7-hacker-edition)
-* [8. Pistas, tips y lecturas complementarias](#8-pistas-tips-y-lecturas-complementarias)
-* [9. Checklist](#9-checklist)
-* [10. Achicando el problema](#10-achicando-el-problema)
 
 ***
 
