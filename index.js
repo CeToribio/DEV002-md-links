@@ -27,7 +27,6 @@ const mdLinks = (route, options = { validate: false, stats: false }) => {
         //readAllFiles(routeAbsolute, arrayFiles);
         const filerecursive = readAllFilesRevuersive(routeAbsolute)
         //console.log('recursive',filerecursive)
-        //filtrar .md
         filerecursive.forEach(file => {
           if (ext(file) === '.md') {
             //console.log(arrayFiles)
@@ -109,22 +108,6 @@ const mdLinks = (route, options = { validate: false, stats: false }) => {
           });
 
       }
-
-      // recorrerArrayFiles(arrayFiles)
-      //   .then((result) => {
-      //     //console.log(result)
-      //     console.log('stats', statsResult(result))
-      //     allPromise(result)
-      //       .then((result) => {
-      //         console.log('validate&stats', statsAndValidate(result))
-      //         console.log(result)
-      //       })
-
-      //     //console.log(promise)
-      //     // const arrayPromise = result.map(element => {
-      //     //   console.log(element.href)
-      //     //  return( promise(element.href))
-      //   });
 
     } else {
       reject('La ruta no existe');

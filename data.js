@@ -1,7 +1,6 @@
 const fs = require('fs');
 const path = require('path');
 const axios = require('axios');
-//const { resolve } = require('path');
 
 
 //si la ruta existe o no
@@ -14,11 +13,10 @@ const absolute = (route) => path.resolve(route)
 // console.log(absolute)
 
 //-------------- comprobar si es un archivo o un directorio con la clase isDirectory o isFile, regresa un booleano
-//regresa un booleano
 const isDirectory = (route) => fs.statSync(route).isDirectory();
 const isFile = (route) => fs.statSync(route).isFile();
 
-//------------------------obtener la extension de un archivo
+//---------------obtener la extension de un archivo
 const ext = (route) => path.extname(route);
 // console.log(ext);
 
@@ -41,7 +39,7 @@ const recorrerArrayFiles = (arrayFiles) => {
             //console.log('newArray', newArray)
             //console.log('merge',merge)
             resolve(merge)
-            return merge
+            //return merge
           }
         }
       });
@@ -86,25 +84,7 @@ const arrayLinks = (file, contenido) => {
   }
 }
 
-// validacion de link
-// const promise = (link) => {
-//   arrayPromise = []
-//   return new Promise((resolve,reject) => { 
-//     arrayPromise.push(axios.get(link))
-//     resolve (arrayPromise)
-
-//   })
-// } 
-//---------prueba sin promesa
-// const promise = (link) => {
-//   const arrayPromise = []
-//   arrayPromise.push(axios.get(link))
-//   return arrayPromise
-
-// }
-
-//pruebaLinks.map(link => arrayPromise.push(axios.get(link)))
-
+// validacion de los links - entrega el objeto con status y ok
 const allPromise = (arrayLinks) => {
   const validate = arrayLinks.map((link) => {
     return axios.get(link.href)
@@ -123,7 +103,6 @@ const allPromise = (arrayLinks) => {
         const objectValidate = {
           ...link,
           status: err.response ? 404 : 'ERROR',
-          //err.errno, o es 404, o es "ERROR"
           ok: "fail"
         }
         //console.log(objectValidate)
@@ -157,25 +136,6 @@ const statsAndValidate = (arrayObjeto) => {
     Broken: brokenLink.length
   }
 }
-
-//console.log(arrayPromise)
-
-//acepta promesas no resueltas
-// const allPromise =(arrayPromise)=>{
-//   return new Promise ((resolve, reject)=> {
-//     Promise.all(arrayPromise)
-//     .then((result) => {
-//       result.map(respuesta => {
-//         resolve( {
-//           status: console.log(respuesta.status),
-//           ok: console.log(respuesta.statusText)
-//         });
-//       })
-//     })
-//     .catch((err) => console.log(err))
-//   })
-
-// }
 
 // -----------------funcion recursiva
 // const arrayOfFiles = []
@@ -216,7 +176,6 @@ function readAllFilesRevuersive(route) {
 
 // arrayOfFiles = []
 // console.log(readAllFiles('./carpeta', arrayOfFiles ));
-
 
 
 module.exports = {

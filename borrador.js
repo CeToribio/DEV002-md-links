@@ -98,3 +98,59 @@
         //console.log(arrayObjetos);
         // const arrayObjetos = arrayLinks(arrayFiles)
         // console.log('arrayojetos',arrayObjetos)
+
+// validacion de link
+// const promise = (link) => {
+//   arrayPromise = []
+//   return new Promise((resolve,reject) => { 
+//     arrayPromise.push(axios.get(link))
+//     resolve (arrayPromise)
+
+//   })
+// } 
+//---------prueba sin promesa
+// const promise = (link) => {
+//   const arrayPromise = []
+//   arrayPromise.push(axios.get(link))
+//   return arrayPromise
+
+// }
+
+//pruebaLinks.map(link => arrayPromise.push(axios.get(link)))
+
+//console.log(arrayPromise)
+
+//acepta promesas no resueltas
+// const allPromise =(arrayPromise)=>{
+//   return new Promise ((resolve, reject)=> {
+//     Promise.all(arrayPromise)
+//     .then((result) => {
+//       result.map(respuesta => {
+//         resolve( {
+//           status: console.log(respuesta.status),
+//           ok: console.log(respuesta.statusText)
+//         });
+//       })
+//     })
+//     .catch((err) => console.log(err))
+//   })
+
+// }
+
+
+//--------------------
+  // recorrerArrayFiles(arrayFiles)
+      //   .then((result) => {
+      //     //console.log(result)
+      //     console.log('stats', statsResult(result))
+      //     allPromise(result)
+      //       .then((result) => {
+      //         console.log('validate&stats', statsAndValidate(result))
+      //         console.log(result)
+      //       })
+
+      //     //console.log(promise)
+      //     // const arrayPromise = result.map(element => {
+      //     //   console.log(element.href)
+      //     //  return( promise(element.href))
+      //   });
