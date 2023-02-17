@@ -70,7 +70,7 @@ Este proyecto cuenta con los siguientes archivos:
 
 Contiene la función mdLinks
 
-### `mdLinks(path, options)`
+#### `mdLinks(path, options)`
 
 ### Argumentos
 
@@ -145,13 +145,13 @@ $ md-links ./some/example.md
 
 ### Options
 
-### `--validate`
+#### `--validate`
 
 Si pasamos la opción `--validate`, el módulo hace una petición HTTP para
 averiguar si el link funciona o no. Si el link resulta en una redirección a una
 URL que responde ok, entonces consideraremos el link como ok.
 
-### `--stats`
+#### `--stats`
 
 Si pasamos la opción `--stats` el output (salida) será un texto con estadísticas
 básicas sobre los links.
