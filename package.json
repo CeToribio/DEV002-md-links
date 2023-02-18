@@ -32,6 +32,6 @@
   },
   "homepage": "https://github.com/CeToribio/DEV002-md-links#readme",
   "bin": {
-    "mdlinks": "./cli.js"
-  }
+    "mdlinks-ctoribio": "./cli.js"
+  } 
 }
