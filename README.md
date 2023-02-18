@@ -47,7 +47,7 @@ Para desarrollar esta herramienta:
  diagrama fue iterando a lo largo del desarrollo del proyecto, llegando finalmente a la imagen que 
  podemos ver.
 
- ![diagrama-de-flujo](./img/diagrama-de-flujo.png))
+ ![diagrama-de-flujo](./img/diagrama-de-flujo.png)
 
 ## 4. Proyecto
 

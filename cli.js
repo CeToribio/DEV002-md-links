@@ -27,6 +27,8 @@ if (route) {
     } else if ((opcion1 === '--validate' && opcion2 === '--stats') || (opcion1 === '--stats' && opcion2 === '--validate')) {
         mdLinks(route, { validate: true, stats: true })
             .then(result => result)
+    } else {
+        console.log('revisa las parametros')
     }
 }
 
