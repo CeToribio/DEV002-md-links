@@ -154,3 +154,27 @@
       //     //   console.log(element.href)
       //     //  return( promise(element.href))
       //   });
+
+      // -----------------funcion recursiva
+// const arrayOfFiles = []
+// function readAllFiles(route, newarray = []) {
+//   //const newarray = []
+//   const files = fs.readdirSync(route)
+//   //console.log(files);
+//   files.forEach(file => {
+//     const stat = fs.statSync(`${route}/${file}`)
+//     // console.log(stat.isDirectory());
+//     if (stat.isDirectory()) {
+//       readAllFiles(`${route}/${file}`, newarray)
+//     } else {
+//       //validar una extension .md
+//       if (path.extname(file) === '.md') {
+//         newarray.push(`${route}/${file}`)
+//       }
+//     }
+//   });
+
+//   // console.log(newarray)
+//   return newarray
+
+// }

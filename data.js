@@ -52,7 +52,7 @@ const urlRegex = /\((https?:\/\/[^\s]+)(?: "(.+)")?\)|(https?:\/\/[^\s]+)/ig;
 const textRegex = /\[(\w+.+?)\]/gi;
 //  funcion para encontrar links y botar el objeto
 const arrayLinks = (file, contenido) => {
-  const arrayObjetos = []
+  const arrayObjetos = [];
   if (regexLinks.test(contenido) === false) {
     console.log('No hay links para verificar en la ruta ' + `${file}`)
     return []
@@ -137,30 +137,6 @@ const statsAndValidate = (arrayObjeto) => {
   }
 }
 
-// -----------------funcion recursiva
-// const arrayOfFiles = []
-function readAllFiles(route, newarray = []) {
-  //const newarray = []
-  const files = fs.readdirSync(route)
-  //console.log(files);
-  files.forEach(file => {
-    const stat = fs.statSync(`${route}/${file}`)
-    // console.log(stat.isDirectory());
-    if (stat.isDirectory()) {
-      readAllFiles(`${route}/${file}`, newarray)
-    } else {
-      //validar una extension .md
-      if (path.extname(file) === '.md') {
-        newarray.push(`${route}/${file}`)
-      }
-    }
-  });
-
-  // console.log(newarray)
-  return newarray
-
-}
-
 function readAllFilesRevuersive(route) {
   if (isDirectory(route)) {
     const files = fs.readdirSync(route)
@@ -181,7 +157,6 @@ function readAllFilesRevuersive(route) {
 module.exports = {
   exist,
   absolute,
-  readAllFiles,
   isDirectory,
   isFile,
   ext,
@@ -189,6 +164,7 @@ module.exports = {
   allPromise,
   statsResult,
   statsAndValidate,
-  readAllFilesRevuersive
+  readAllFilesRevuersive,
+  arrayLinks
 
 }

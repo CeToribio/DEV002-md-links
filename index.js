@@ -1,6 +1,5 @@
 const { exist,
   absolute,
-  readAllFiles,
   isFile,
   isDirectory,
   ext,
@@ -9,7 +8,6 @@ const { exist,
   statsResult,
   statsAndValidate,
   readAllFilesRevuersive } = require('./data.js');
-
 
 const mdLinks = (route, options = { validate: false, stats: false }) => {
   return new Promise((resolve, reject) => {
@@ -115,7 +113,6 @@ const mdLinks = (route, options = { validate: false, stats: false }) => {
   });
 
 };
-
 
 
 module.exports = {
