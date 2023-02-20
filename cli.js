@@ -28,7 +28,7 @@ if (route) {
         mdLinks(route, { validate: true, stats: true })
             .then(result => result)
     } else {
-        console.log('revisa las parametros')
+        console.log('revisa los parametros')
     }
 }
 

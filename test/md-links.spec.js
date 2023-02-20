@@ -7,7 +7,8 @@ const { exist,
   arrayLinks,
   statsResult,
   statsAndValidate,
-  readAllFilesRevuersive
+  readAllFilesRevuersive,
+  allPromise
 } = require('../data.js');
 
 const arrayObjetos = [{
@@ -19,6 +20,21 @@ const arrayObjetos = [{
   href: 'https://developer.mozilla.org/es/docs/Web/JavaScript/Reference/Statements/export',
   text: 'Export',
   path: './carpeta/prueba.md'
+}]
+
+const arrayObjetoValidate = [{
+  href: 'https://developer.mozilla.org/es/docs/Web/JavaScript/Reference/Global_Objects/Array',
+  text: 'Array',
+  path: './carpeta/prueba.md',
+  status: 200,
+  ok: 'Ok'
+},
+{
+  href: 'https://developer.mozilla.org/es/docs/Web/JavaScript/Reference/Statements/export',
+  text: 'Export',
+  path: './carpeta/prueba.md',
+  status: 200,
+  ok: 'Ok'
 }]
 
 const contenido = `ARCHIVO PRUEBA
@@ -33,16 +49,6 @@ const files = [
   './carpeta/subcarpeta/sub-subcarpeta/prueba2.js',
   './carpeta/subcarpeta/sub-subcarpeta/prueba4.md'
 ]
-
-
-// jest.mock('../data.js', () => {
-//   return {
-//     // la funcion jest.fn, crea una funcion interceptada por JEST
-//     fs: jest.fn(),
-//     existsSync: jest.fn(),
-
-//   }
-// })
 
 describe('exist, confirma si la ruta existe o no regresando un booleano', () => {
   it('debe ser una función', () => {
@@ -142,3 +148,16 @@ describe('readAllFilesRevuersive, entrega un array de archivos', () => {
   });
 });
 
+describe('allPromise, entrega el array de objetos sumando el status y statustext', () => {
+  it('debe ser una función', () => {
+    expect(typeof allPromise).toBe('function')
+  });
+  it('retorna una promesa', () => {
+    //const back = recorrerArrayFiles([])
+    //console.log(back)
+    expect(typeof allPromise([]).then).toBe('function')
+  });
+  // it('retorna un array de objetos', () => {
+  //   expect(allPromise(arrayObjetos)).resolves.toEqual(arrayObjetoValidate)
+  // });
+});
