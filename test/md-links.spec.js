@@ -27,14 +27,14 @@ const arrayObjetoValidate = [{
   text: 'Array',
   path: './carpeta/prueba.md',
   status: 200,
-  ok: 'Ok'
+  ok: 'OK'
 },
 {
   href: 'https://developer.mozilla.org/es/docs/Web/JavaScript/Reference/Statements/export',
   text: 'Export',
   path: './carpeta/prueba.md',
   status: 200,
-  ok: 'Ok'
+  ok: 'OK'
 }]
 
 const contenido = `ARCHIVO PRUEBA
@@ -153,11 +153,9 @@ describe('allPromise, entrega el array de objetos sumando el status y statustext
     expect(typeof allPromise).toBe('function')
   });
   it('retorna una promesa', () => {
-    //const back = recorrerArrayFiles([])
-    //console.log(back)
     expect(typeof allPromise([]).then).toBe('function')
   });
-  // it('retorna un array de objetos', () => {
-  //   expect(allPromise(arrayObjetos)).resolves.toEqual(arrayObjetoValidate)
-  // });
+  it('retorna un array de objetos', () => {
+    expect(allPromise(arrayObjetos)).resolves.toEqual(arrayObjetoValidate)
+  });
 });
