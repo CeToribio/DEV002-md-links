@@ -9,14 +9,14 @@ const exist = (route) => fs.existsSync(route);
 // console.log(exist)
 
 // metodo para convertir la ruta absoluta
-const absolute = (route) => path.resolve(route)
+const absolute = (route) => path.resolve(route);
 // console.log(absolute)
 
-//-------------- comprobar si es un archivo o un directorio con la clase isDirectory o isFile, regresa un booleano
+// comprobar si es un archivo o un directorio con la clase isDirectory o isFile, regresa un booleano
 const isDirectory = (route) => fs.statSync(route).isDirectory();
 const isFile = (route) => fs.statSync(route).isFile();
 
-//---------------obtener la extension de un archivo
+// obtener la extension de un archivo
 const ext = (route) => path.extname(route);
 // console.log(ext);
 
@@ -50,7 +50,7 @@ const recorrerArrayFiles = (arrayFiles) => {
 const regexLinks = /\[(.+?)\]\((https?:\/\/[^\s]+)(?: "(.+)")?\)|(https?:\/\/[^\s]+)/ig;
 const urlRegex = /\((https?:\/\/[^\s]+)(?: "(.+)")?\)|(https?:\/\/[^\s]+)/ig;
 const textRegex = /\[(\w+.+?)\]/gi;
-//  funcion para encontrar links y botar el objeto
+//  funcion para encontrar links y entregar el objeto por link
 const arrayLinks = (file, contenido) => {
   const arrayObjetos = [];
   if (regexLinks.test(contenido) === false) {
